@@ -1,41 +1,44 @@
-import * as React from 'react';
-import {StyleSheet} from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Feed from '../Screens/Feed';
-import CreateStory from '../Screens/CreateStory';
+import React from "react";
+import { StyleSheet } from "react-native";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { RFValue } from "react-native-responsive-fontsize";
 
-const Tab = createBottomTabNavigator();
+import Feed from "../screens/Feed";
+import CreateStory from "../screens/CreateStory";
+const Tab = createMaterialBottomTabNavigator();
 
-export default class BottomTabNavigator extends React.Component {
-  render(){
-    return (
-        <Tab.Navigator
-        labeled={false}
-        barStyle={styles.bottomTabStyle}
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-              if (route.name === 'StoryFeed') {
-                iconName = focused ? 'book' : 'book-outline';
-              }
-              else if (route.name === 'CreateStory') {
-                iconName = focused ? 'create' : 'create-outline';
-              }
-              return <Ionicons name={iconName} size={RFValue(25)} color={color} style={styles.icons}/>
-            }
-          })}
-          activeColor={"#ee8249"}
-          inactiveColor={"gray"}
-        >
-          <Tab.Screen name="StoryFeed" component={Feed} />
-          <Tab.Screen name="CreateStory" component={CreateStory} />
-        </Tab.Navigator>
-    )
-
-  }
-}
+const BottomTabNavigator = () => {
+  return (
+    <Tab.Navigator
+      labeled={false}
+      barStyle={styles.bottomTabStyle}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Feed") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Create Story") {
+            iconName = focused ? "add-circle" : "add-circle-outline";
+          }
+          return (
+            <Ionicons
+              name={iconName}
+              size={RFValue(25)}
+              color={color}
+              style={styles.icons}
+            />
+          );
+        }
+      })}
+      activeColor={"#ee8249"}
+      inactiveColor={"gray"}
+    >
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="Create Story" component={CreateStory} />
+    </Tab.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   bottomTabStyle: {
@@ -51,3 +54,5 @@ const styles = StyleSheet.create({
     height: RFValue(30)
   }
 });
+
+export default BottomTabNavigator;
