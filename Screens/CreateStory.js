@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet, SafeAreaView, Platform, StatusBar, Image, Dimensions } from "react-native";
-
+import { Text, View, Image, StyleSheet, SafeAreaView, Platform, StatusBar, Dimensions } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import DropDownPicker from "react-native-dropdown-picker";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 
@@ -29,6 +30,7 @@ export default class CreateStory extends Component {
 		if (!this.state.fontsLoaded) {
 			return <AppLoading />
 		} else {
+			return (
 			<View style={styles.container}>
 				<SafeAreaView style={styles.droidSafeArea} />
 				<View style={styles.appTitle}>
@@ -43,6 +45,7 @@ export default class CreateStory extends Component {
 					</View>
 				</View>
 			</View>
+			)
 		}
 	}
 }
