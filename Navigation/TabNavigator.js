@@ -4,8 +4,8 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { RFValue } from "react-native-responsive-fontsize";
 
-import Feed from "../screens/Feed";
-import CreateStory from "../screens/CreateStory";
+import Feed from "../Screens/Feed";
+import CreateStory from "../Screens/CreateStory";
 const Tab = createMaterialBottomTabNavigator();
 
 const BottomTabNavigator = () => {
