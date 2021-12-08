@@ -12,6 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { RFValue } from "react-native-responsive-fontsize";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 let customFonts = {
   "Bubblegum-Sans": require("../assets/fonts/BubblegumSans-Regular.ttf")
@@ -45,7 +46,14 @@ export default class StoryCard extends Component {
       return (<Text>Loading..</Text>);
     } else {
       return (
-        <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.container}
+          onPress={() =>
+            this.props.navigation.navigate("StoryScreen", {
+              story: this.props.story
+            })
+          }
+        >
           <View style={styles.cardContainer}>
             <Image
               source={require("../assets/story_image_1.png")}
@@ -70,7 +78,8 @@ export default class StoryCard extends Component {
               </View>
             </View>
           </View>
-        </View>
+          </TouchableOpacity>
+        // </View>
       );
     }
   }
