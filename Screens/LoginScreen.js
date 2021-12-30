@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Button, Platform, SafeAreaView, Image, Text } from "react-native";
+import { StyleSheet, View, Button, Platform, SafeAreaView, Image, Text, TouchableOpacity } from "react-native";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -97,9 +97,9 @@ export default class LoginScreen extends Component {
       const result = await Google.logInAsync({
         behaviour: "web",
         androidClientId:
-          "72696421845-lqe44rrjuiggsegp1uv4gklv34tvl3gc.apps.googleusercontent.com",
+          "658382714539-10lt0bqvfmbp3jua0s2fot16k4rpr733.apps.googleusercontent.com",
         iosClientId:
-          "72696421845-osrvc36bjie4264j4c0812sp5a2egqhj.apps.googleusercontent.com",
+          "658382714539-ls7vgk51b66nopqsmf8kuccgo987dbbj.apps.googleusercontent.com",
         scopes: ["profile", "email"]
       });
 
@@ -129,6 +129,24 @@ export default class LoginScreen extends Component {
             ></Image>
             <Text style={styles.appTitleText}>{`Storytelling\nApp`}</Text>
           </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.signInWithGoogleAsync()}
+            >
+              <Image
+                source={require("../assets/google_icon.png")}
+                style={styles.googleIcon}
+              ></Image>
+              <Text style={styles.googleText}>Sign in with Google</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.cloudContainer}>
+            <Image
+              source={require("../assets/cloud.png")}
+              style={styles.cloudImage}
+            ></Image>
+          </View>
         </View>
       );
     }
@@ -156,7 +174,41 @@ const styles = StyleSheet.create({
   appTitleText: {
     color: "white",
     textAlign: "center",
-    fontSize: RFValue(40),
+    fontSize: RFValue(30),
     fontFamily: "Bubblegum-Sans"
   },
+  buttonContainer: {
+    flex: 0.3,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 100
+  },
+  button: {
+    width: RFValue(250),
+    height: RFValue(50),
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    borderRadius: RFValue(30),
+    backgroundColor: "white"
+  },
+  googleIcon: {
+    width: RFValue(30),
+    height: RFValue(30),
+    resizeMode: "contain"
+  },
+  googleText: {
+    color: "black",
+    fontSize: RFValue(20),
+    fontFamily: "Bubblegum-Sans"
+  },
+  cloudContainer: {
+    flex: 0.3
+  },
+  cloudImage: {
+    position: "absolute",
+    width: "100%",
+    resizeMode: "contain",
+    bottom: RFValue(-5)
+  }
 });
