@@ -9,7 +9,6 @@ import {
 	Image,
 	ScrollView,
 	TextInput,
-	Picker,
 	Dimensions
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -99,62 +98,64 @@ export default class CreateStory extends Component {
 								style={styles.previewImage}
 							></Image>
 							<View style={{ height: RFValue(this.state.dropdownHeight), alignItems: 'center' }}>
-								<Picker
-									style={{ backgroundColor: 'white' }}
-									selectedValue={this.state.previewImage}
-									onValueChange={(item) => { this.setState({ previewImage: item }) }}
-									itemStyle={{ flex: 1 }}
-								// items={[
-								// 	{ label: "Image 1", value: "image_1" },
-								// 	{ label: "Image 2", value: "image_2" },
-								// 	{ label: "Image 3", value: "image_3" },
-								// 	{ label: "Image 4", value: "image_4" },
-								// 	{ label: "Image 5", value: "image_5" }
-								//   ]}
-								//   defaultValue={this.state.previewImage}
-								//   containerStyle={{
-								//     height: 40,
-								//     borderRadius: 20,
-								//     marginBottom: 10
-								//   }}
-								//   onOpen={() => {
-								//     this.setState({ dropdownHeight: 170 });
-								//   }}
-								//   onClose={() => {
-								//     this.setState({ dropdownHeight: 40 });
-								//   }}
-								//   style={{ backgroundColor: "transparent" }}
-								//   itemStyle={{
-								//     justifyContent: "flex-start"
-								//   }}
-								//   dropDownStyle={{ backgroundColor: "#2f345d" }}
-								//   labelStyle={{
-								//     color: "white",
-								//     fontFamily: "Bubblegum-Sans"
-								//   }}
-								//   arrowStyle={{
-								//     color: "white",
-								//     fontFamily: "Bubblegum-Sans"
-								//   }}
-								//   onChangeItem={item =>
-								//     this.setState({
-								//       previewImage: item.value
-								//     })
-								//   }
+								<DropDownPicker
+									items={[
+										{ label: "Image 1", value: "image_1" },
+										{ label: "Image 2", value: "image_2" },
+										{ label: "Image 3", value: "image_3" },
+										{ label: "Image 4", value: "image_4" },
+										{ label: "Image 5", value: "image_5" }
+									]}
+									defaultValue={this.state.previewImage}
+									containerStyle={{
+										height: 40,
+										borderRadius: 20,
+										marginBottom: 30,
+										width: '30%'
+									}}
+									onOpen={() => {
+										this.setState({ dropdownHeight: 100 });
+									}}
+									onClose={() => {
+										this.setState({ dropdownHeight: 40 });
+									}}
+									style={{ backgroundColor: "transparent" }}
+									itemStyle={{
+										justifyContent: "center",
+									}}
+									dropDownStyle={{
+										backgroundColor: this.state.light_theme ? "#eee" : "#2f345d"
+									}}
+									labelStyle={
+										this.state.light_theme
+											? styles.dropdownLabelLight
+											: styles.dropdownLabel
+									}
+									arrowStyle={
+										this.state.light_theme
+											? styles.dropdownLabelLight
+											: styles.dropdownLabel
+									}
+									onChangeItem={item =>
+										this.setState({
+											previewImage: item.value
+										})
+									}
 								>
-									<Picker.Item label="Image_1" value="image_1" />
+									{/* <Picker.Item label="Image_1" value="image_1" />
 									<Picker.Item label="Image_2" value="image_2" />
 									<Picker.Item label="Image_3" value="image_3" />
-									<Picker.Item label="Image_4" value="image_4" />
-								</Picker>
+									<Picker.Item label="Image_4" value="image_4" /> */}
+								</DropDownPicker>
 							</View>
 
 							<TextInput
-								style={
+								style={[
 									this.state.light_theme
 										? styles.inputFontLight
-										: styles.inputFont
-								}
+										: styles.inputFont,
+									{ marginTop: 30 }
+								]}
 								onChangeText={title => this.setState({ title })}
 								placeholder={"Title"}
 								placeholderTextColor={
@@ -219,7 +220,6 @@ export default class CreateStory extends Component {
 		}
 	}
 }
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -286,6 +286,14 @@ const styles = StyleSheet.create({
 		borderWidth: RFValue(1),
 		borderRadius: RFValue(10),
 		paddingLeft: RFValue(10),
+		color: "black",
+		fontFamily: "Bubblegum-Sans"
+	},
+	dropdownLabel: {
+		color: "white",
+		fontFamily: "Bubblegum-Sans"
+	},
+	dropdownLabelLight: {
 		color: "black",
 		fontFamily: "Bubblegum-Sans"
 	},
