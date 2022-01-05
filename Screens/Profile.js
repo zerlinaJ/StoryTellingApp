@@ -64,9 +64,6 @@ export default class Profile extends Component {
 		this.setState({ fontsLoaded: true });
 	}
 
-	componentDidMount() {
-		this._loadFontsAsync();
-	}
 
 	render() {
 		if (!this.state.fontsLoaded) {
