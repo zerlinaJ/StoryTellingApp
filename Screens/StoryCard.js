@@ -25,7 +25,9 @@ export default class StoryCard extends Component {
     this.state = {
       fontsLoaded: false,
       story_id: this.props.story.key,
-      story_data: this.props.story.value
+      story_data: this.props.story.value,
+      is_liked: false,
+      likes: this.props.story.value.likes
     };
   }
 
@@ -45,6 +47,26 @@ export default class StoryCard extends Component {
   }
 
 
+  likeAction = () => {
+    if (this.state.is_liked) {
+      firebase
+        .database()
+        .ref("posts")
+        .child(this.state.story_id)
+        .child("likes")
+        .set(firebase.database.ServerValue.increment(-1));
+      this.setState({ likes: (this.state.likes -= 1), is_liked: false });
+    } else {
+      firebase
+        .database()
+        .ref("posts")
+        .child(this.state.story_id)
+        .child("likes")
+        .set(firebase.database.ServerValue.increment(1));
+      this.setState({ likes: (this.state.likes += 1), is_liked: true });
+    }
+  };
+
   fetchUser = () => {
     let theme;
     firebase
@@ -58,6 +80,7 @@ export default class StoryCard extends Component {
 
   render() {
     let story = this.state.story_data;//what has got passed from Feed.js
+    let story_id = this.state.story_id;//what has got passed from Feed.js
     if (!this.state.fontsLoaded) {
       return (<Text>Loading..</Text>);
     } else {
@@ -73,7 +96,7 @@ export default class StoryCard extends Component {
           style={styles.container}
           onPress={() =>
             this.props.navigation.navigate("StoryScreen", {
-              story: story
+              story: story, story_id: story_id
             })
           }
         >
@@ -95,13 +118,26 @@ export default class StoryCard extends Component {
               </Text>
             </View>
             <View style={styles.actionContainer}>
-              <View style={styles.likeButton}>
+
+              {/* <View style={styles.likeButton}> */}
+              <TouchableOpacity
+                style={
+                  this.state.is_liked
+                    ? styles.likeButtonLiked
+                    : styles.likeButtonDisliked
+                }
+                onPress={() => this.likeAction()}
+              >
                 <Ionicons name={"heart"} size={RFValue(30)} color={"white"} />
-                <Text style={styles.likeText}>12k</Text>
-              </View>
+                <Text style={
+                  this.state.light_theme
+                    ? styles.likeTextLight
+                    : styles.likeText
+                }>{this.state.likes}</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity >
         // </View>
       );
     }
@@ -163,5 +199,30 @@ const styles = StyleSheet.create({
     fontFamily: "Bubblegum-Sans",
     fontSize: RFValue(25),
     marginLeft: RFValue(5)
-  }
+  },
+  likeTextLight: {
+    fontFamily: "Bubblegum-Sans",
+    fontSize: 25,
+    marginLeft: 25,
+    marginTop: 6
+  },
+  likeButtonLiked: {
+    width: RFValue(160),
+    height: RFValue(40),
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: "#eb3948",
+    borderRadius: RFValue(30)
+  },
+  likeButtonDisliked: {
+    width: RFValue(160),
+    height: RFValue(40),
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderColor: "#eb3948",
+    borderWidth: 2,
+    borderRadius: RFValue(30)
+  },
 });
