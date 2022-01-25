@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Button, Platform, SafeAreaView, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Button, Platform, SafeAreaView, Image, Text, TouchableOpacity, StatusBar } from "react-native";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 import { RFValue } from "react-native-responsive-fontsize";

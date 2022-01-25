@@ -13,6 +13,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import firebase from 'firebase'
 
 let customFonts = {
   "Bubblegum-Sans": require("../assets/fonts/BubblegumSans-Regular.ttf")
@@ -22,53 +23,75 @@ export default class StoryCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontsLoaded: false
+      fontsLoaded: false,
+      story_id: this.props.story.key,
+      story_data: this.props.story.value
     };
   }
 
   async _loadFontsAsync() {
     await Font.loadAsync(customFonts);
-  
+
     this.setState({ fontsLoaded: true });
     console.log(this.state.fontsLoaded)
   }
 
   componentDidMount() {
-    console.log(this.props.story.title)
-    console.log(this.props.story.author)
-    console.log(this.props.story.description)
-
+    // console.log(this.props.story.title)
+    // console.log(this.props.story.author)
+    // console.log(this.props.story.description)
     this._loadFontsAsync();
+    this.fetchUser();
   }
 
+
+  fetchUser = () => {
+    let theme;
+    firebase
+      .database()
+      .ref("/users/" + firebase.auth().currentUser.uid)
+      .on("value", snapshot => {
+        theme = snapshot.val().current_theme;
+        this.setState({ light_theme: theme === "light" });
+      });
+  };
+
   render() {
+    let story = this.state.story_data;//what has got passed from Feed.js
     if (!this.state.fontsLoaded) {
       return (<Text>Loading..</Text>);
     } else {
+      let images = { //so that a different image corresponding to each image gets displayed
+        image_1: require("../assets/story_image_1.png"),
+        image_2: require("../assets/story_image_2.png"),
+        image_3: require("../assets/story_image_3.png"),
+        image_4: require("../assets/story_image_4.png"),
+        image_5: require("../assets/story_image_5.png")
+      };
       return (
         <TouchableOpacity
           style={styles.container}
           onPress={() =>
             this.props.navigation.navigate("StoryScreen", {
-              story: this.props.story
+              story: story
             })
           }
         >
           <View style={styles.cardContainer}>
             <Image
-              source={require("../assets/story_image_1.png")}
+              source={images[story.preview_image]}
               style={styles.storyImage}
             ></Image>
 
             <View style={styles.titleContainer}>
               <Text style={styles.storyTitleText}>
-                {this.props.story.title}
+                {story.title}
               </Text>
               <Text style={styles.storyAuthorText}>
-                {this.props.story.author}
+                {story.author}
               </Text>
               <Text style={styles.descriptionText}>
-                {this.props.story.description}
+                {story.description}
               </Text>
             </View>
             <View style={styles.actionContainer}>
@@ -78,7 +101,7 @@ export default class StoryCard extends Component {
               </View>
             </View>
           </View>
-          </TouchableOpacity>
+        </TouchableOpacity>
         // </View>
       );
     }
@@ -99,7 +122,7 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     height: RFValue(250),
-    marginTop:RFValue(25)
+    marginTop: RFValue(25)
   },
   titleContainer: {
     paddingLeft: RFValue(20),

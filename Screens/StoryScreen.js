@@ -9,7 +9,8 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Alert
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -62,6 +63,7 @@ export default class StoryScreen extends Component {
         this.setState({
             speakerColor: current_color === "gray" ? "#ee8249" : "gray"
         });
+        Alert.alert(story)
         if (current_color === "gray") {
             Speech.speak(`${title} by ${author}`);
             Speech.speak(story);

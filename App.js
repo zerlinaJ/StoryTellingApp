@@ -6,14 +6,14 @@ import LoadingScreen from "./Screens/LoadingScreen";
 import DashboardScreen from "./Screens/DashboardScreen";
 
 //import * as firebase from "firebase";
-import { firebase } from '@firebase/app'
+import firebase from 'firebase'
 import { firebaseConfig } from "./config";
 
- if (!firebase.apps.length) {
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
- } else {
-   firebase.app();
- }
+} else {
+  firebase.app();
+}
 
 const AppSwitchNavigator = createSwitchNavigator({
   LoadingScreen: LoadingScreen,
